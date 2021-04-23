@@ -1,0 +1,12 @@
+#!/bin/bash
+readelf -sW sys/libssl.so | grep ' FUNC ' | grep -v ' UND ' | sed 's/^.*\s//g' > sym0
+rm -f dict
+bbe -e 's/libssl.so/libSSL.so/g' sys/libssl.so > libSSL.so || exit 1
+while read -r symbol; do
+    newname=$(elfcrack 1 "$symbol")
+    echo "${symbol} => ${newname}"
+    echo "${symbol}=${newname}" >> dict
+done < sym0
+renametab=$(tr '\n' ',' < dict)
+symrename libSSL.so "$renametab" || exit 1
+rm -f sym0

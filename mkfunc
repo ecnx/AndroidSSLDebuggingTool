@@ -1,0 +1,15 @@
+#!/bin/bash
+echo 'const char* func_list[] = {' > src/func-list.h
+rm -f src/func.c
+i=0
+while read -r line; do
+    symbol=$(echo "$line" | sed 's/=.*$//g')
+    newname=$(echo "$line" | sed 's/^.*=//g')
+    echo "\"${newname}\"," >> src/func-list.h
+    echo "void* ${symbol}(void* a, void* b, void* c, void* d) {"
+    echo "    return ((void* (*) (void*, void*, void*, void*)) func_addr[$i])(a, b, c, d);";
+    echo "}"
+    i=$((i+1))
+done < dict >> src/func.c
+
+echo '};' >> src/func-list.h
