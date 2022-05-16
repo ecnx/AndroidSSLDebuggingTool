@@ -1,6 +1,8 @@
 Android SSL Debugging Tool
 --------------------------
 
+See also for HTTP2 offline analysis: https://github.com/ecnx/h2dump
+
 Note: Root required, be careful not to brick your phone! Make backup.  
 Note: This method fails on some phone models, be prepared it might crash.  
 Note: I take no responsibility of any damage made to phone accidenyaly.  
